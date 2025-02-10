@@ -19,7 +19,6 @@ public class Song {
     private int duration;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "artist_id", nullable = false)
     private Artist artist;
 

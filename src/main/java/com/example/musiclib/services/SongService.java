@@ -9,6 +9,9 @@ import com.example.musiclib.repositories.ArtistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +21,10 @@ public class SongService {
     private final PlaylistRepository playlistRepository;
 
     public List<Song> getAll() { return songRepository.findAll(); }
-    public Song getById(Long id) { return songRepository.findById(id).orElseThrow(); }
+    public Song getById(Long id) {
+        return songRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Song not found"));
+    }
 
     public Song save(Song song, Long artistId) {
         Artist artist = artistRepository.findById(artistId)
@@ -27,7 +33,14 @@ public class SongService {
         return songRepository.save(song);
     }
 
-    public void delete(Long id) { songRepository.deleteById(id); }
+    public void delete(Long id) {
+        Song song = songRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Song not found"));
+
+        song.getPlaylists().forEach(playlist -> playlist.getSongs().remove(song));
+        songRepository.delete(song);
+    }
+
 
     public void addSongToPlaylist(Long songId, Long playlistId) {
         Song song = songRepository.findById(songId)

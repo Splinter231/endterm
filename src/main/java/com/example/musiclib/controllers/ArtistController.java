@@ -5,6 +5,7 @@ import com.example.musiclib.entities.Artist;
 import com.example.musiclib.services.ArtistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -17,5 +18,10 @@ public class ArtistController {
     @GetMapping public List<ArtistDTO> getAll() { return artistService.getAll(); }
     @GetMapping("/{id}") public ArtistDTO getById(@PathVariable Long id) { return artistService.getById(id); }
     @PostMapping public Artist create(@RequestBody Artist artist) { return artistService.save(artist); }
-    @DeleteMapping("/{id}") public void delete(@PathVariable Long id) { artistService.delete(id); }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteArtist(@PathVariable Long id) {
+        artistService.delete(id);
+        return ResponseEntity.ok("Artist deleted successfully");
+    }
+
 }
