@@ -51,4 +51,15 @@ public class SongService {
         playlist.getSongs().add(song);
         playlistRepository.save(playlist);
     }
+
+    public Song updateSong(Long id, Song updatedSong) {
+        Song existingSong = songRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Song not found"));
+
+        existingSong.setTitle(updatedSong.getTitle());
+        existingSong.setDuration(updatedSong.getDuration());
+
+        return songRepository.save(existingSong);
+    }
+
 }

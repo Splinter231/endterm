@@ -15,9 +15,15 @@ import java.util.List;
 public class PlaylistController {
     private final PlaylistService playlistService;
 
-    @GetMapping public List<Playlist> getAll() { return playlistService.getAll(); }
-    @GetMapping("/{id}") public Playlist getById(@PathVariable Long id) { return playlistService.getById(id); }
-    @PostMapping public Playlist create(@RequestBody Playlist playlist) { return playlistService.save(playlist); }
+    @GetMapping public List<Playlist> getAll() {
+        return playlistService.getAll();
+    }
+    @GetMapping("/{id}") public Playlist getById(@PathVariable Long id) {
+        return playlistService.getById(id);
+    }
+    @PostMapping public Playlist create(@RequestBody Playlist playlist) {
+        return playlistService.save(playlist);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePlaylist(@PathVariable Long id) {
         playlistService.delete(id);

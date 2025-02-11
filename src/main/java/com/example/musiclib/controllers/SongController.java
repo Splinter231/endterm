@@ -13,9 +13,15 @@ import org.springframework.http.ResponseEntity;
 public class SongController {
     private final SongService songService;
 
-    @GetMapping public List<Song> getAll() { return songService.getAll(); }
-    @GetMapping("/{id}") public Song getById(@PathVariable Long id) { return songService.getById(id); }
-    @PostMapping("/{artistId}") public Song create(@RequestBody Song song, @PathVariable Long artistId) { return songService.save(song, artistId); }
+    @GetMapping public List<Song> getAll() {
+        return songService.getAll();
+    }
+    @GetMapping("/{id}") public Song getById(@PathVariable Long id) {
+        return songService.getById(id);
+    }
+    @PostMapping("/{artistId}") public Song create(@RequestBody Song song, @PathVariable Long artistId) {
+        return songService.save(song, artistId);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSong(@PathVariable Long id) {
         songService.delete(id);
@@ -25,4 +31,10 @@ public class SongController {
     public void addSongToPlaylist(@PathVariable Long playlistId, @PathVariable Long songId) {
         songService.addSongToPlaylist(songId, playlistId);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Song> updateSong(@PathVariable Long id, @RequestBody Song updatedSong) {
+        Song song = songService.updateSong(id, updatedSong);
+        return ResponseEntity.ok(song);
+    }
+
 }

@@ -15,9 +15,15 @@ import java.util.List;
 public class ArtistController {
     private final ArtistService artistService;
 
-    @GetMapping public List<ArtistDTO> getAll() { return artistService.getAll(); }
-    @GetMapping("/{id}") public ArtistDTO getById(@PathVariable Long id) { return artistService.getById(id); }
-    @PostMapping public Artist create(@RequestBody Artist artist) { return artistService.save(artist); }
+    @GetMapping public List<ArtistDTO> getAll() {
+        return artistService.getAll();
+    }
+    @GetMapping("/{id}") public ArtistDTO getById(@PathVariable Long id) {
+        return artistService.getById(id);
+    }
+    @PostMapping public Artist create(@RequestBody Artist artist) {
+        return artistService.save(artist);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteArtist(@PathVariable Long id) {
         artistService.delete(id);
