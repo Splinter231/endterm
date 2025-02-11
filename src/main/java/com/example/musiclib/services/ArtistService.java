@@ -36,7 +36,7 @@ public class ArtistService {
 
     public void delete(Long id) {
         Artist artist = artistRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Artist not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found"));
 
         artist.getSongs().forEach(songRepository::delete);
         artistRepository.delete(artist);

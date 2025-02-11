@@ -29,7 +29,7 @@ public class PlaylistService {
 
     public void delete(Long id) {
         Playlist playlist = playlistRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Playlist not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Playlist not found"));
 
         playlist.getSongs().clear();
         playlistRepository.delete(playlist);

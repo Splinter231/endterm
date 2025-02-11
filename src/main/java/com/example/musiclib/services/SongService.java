@@ -28,14 +28,14 @@ public class SongService {
 
     public Song save(Song song, Long artistId) {
         Artist artist = artistRepository.findById(artistId)
-                .orElseThrow(() -> new RuntimeException("Artist not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found"));
         song.setArtist(artist);
         return songRepository.save(song);
     }
 
     public void delete(Long id) {
         Song song = songRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Song not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Song not found"));
 
         song.getPlaylists().forEach(playlist -> playlist.getSongs().remove(song));
         songRepository.delete(song);
